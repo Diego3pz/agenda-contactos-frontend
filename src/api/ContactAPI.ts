@@ -1,14 +1,34 @@
+import { isAxiosError } from "axios";
 import api from "../lib/axios";
-import { ContactFormData } from "../types";
+import { ContactFormData, dashboardContactSchema } from "../types";
 
 export async function createContact(formData: ContactFormData) {
     try {
         const { data } = await api.post('/contacts', formData)
-        console.log(data);
+        return data;
 
 
     } catch (error) {
-        console.error("Error al crear el contacto:", error);
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+
+    }
+
+}
+
+export async function getContacts() {
+    try {
+        const { data } = await api('/contacts')
+        const response = dashboardContactSchema.safeParse(data)
+        if (response.success) {
+            return response.data
+        }
+
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
 
     }
 

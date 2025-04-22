@@ -14,6 +14,8 @@ type ContactFormProps = {
     removeAddressField: (index: number) => void;
 };
 
+
+
 export default function ContactForm({
     register,
     errors,
@@ -183,20 +185,23 @@ export default function ContactForm({
             </div>
 
             <div className="p-6 border-t flex justify-end gap-4 bg-white sticky bottom-0">
-                <button
+                {/* <button
                     className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 text-sm font-medium"
                     type="button"
-                    onClick={() => { }}
+                    
                 >
                     Cancelar
-                </button>
+                </button> */}
                 <button
                     type="submit"
                     className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm font-medium"
+                   
                 >
                     Agregar Contacto
                 </button>
             </div>
+
+            
         </>
     );
 }

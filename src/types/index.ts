@@ -15,5 +15,15 @@ export const contactSchema = z.object({
     ),
 })
 
+export const dashboardContactSchema = z.array(
+    contactSchema.pick({
+        _id: true,
+        contactName: true,
+        contactEmail: true,
+        contactPhones: true,
+        contactAddress: true,
+    })
+)
+
 export type Contact = z.infer<typeof contactSchema>
-export type ContactFormData= Pick<Contact, 'contactName' | 'contactEmail' | 'contactPhones' | 'contactAddress'>
+export type ContactFormData = Pick<Contact, 'contactName' | 'contactEmail' | 'contactPhones' | 'contactAddress'>

@@ -3,9 +3,11 @@ import { Dialog, Transition } from '@headlessui/react';
 import { UserPlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify';
 import ContactForm from './ContactForm';
 import { ContactFormData } from '../../types';
 import { createContact } from '../../api/ContactAPI';
+import { useMutation } from '@tanstack/react-query';
 
 export default function AddContactModal() {
 
@@ -17,6 +19,16 @@ export default function AddContactModal() {
     }
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
 
+    const mutation = useMutation({
+        mutationFn: createContact,
+        onSuccess: (data) => {
+            toast.success(data.message);
+            navigate('', { replace: true });
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        }
+    })
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -41,13 +53,18 @@ export default function AddContactModal() {
         }
     };
 
-    const handleForm = (data: ContactFormData) => {
-        createContact(data);
-    }
+    const handleForm = (formData: ContactFormData) => {
+        try {
+             mutation.mutate(formData); // Llama a la mutación para crear el contacto
+
+        } catch (error) {
+            toast.error("Error al crear el contacto");
+        }
+    };
 
     return (
         <Transition appear show={show} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={() => navigate('', { replace: true })}>
+            <Dialog as="div" className="relative z-20" onClose={() => navigate('', { replace: true })}>
                 <div className="fixed inset-0 bg-black/60" />
                 <div className="fixed inset-0 overflow-y-auto">
                     <div className="flex min-h-full items-center justify-center p-4 text-center">
@@ -87,7 +104,6 @@ export default function AddContactModal() {
                             </form>
 
                             {/* Footer */}
-
                         </Dialog.Panel>
                     </div>
                 </div>
