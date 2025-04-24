@@ -2,8 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import DeleteBlack from "../Icon/DeleteBlack";
 import EditBlack from "../Icon/EditBlack";
 import { getContacts } from "../../api/ContactAPI";
+import { useNavigate } from "react-router-dom";
 
 export default function ContactList() {
+  const navigate = useNavigate();
 
   const { data, isLoading } = useQuery({
     queryKey: ["contacts"],
@@ -35,25 +37,52 @@ export default function ContactList() {
               <>
                 {data.map((contact, index) => (
                   <tr key={index} className="border-t hover:bg-gray-200 cursor-pointer transition-colors">
-                    <td className="px-6 py-7">{contact.contactName}</td>
-                    <td className="px-6 py-7">{contact.contactEmail}</td>
-                    <td className="px-6 py-7">{contact.contactPhones}</td>
+                    {/* Nombre */}
                     <td className="px-6 py-7">
-                      {contact.contactAddress.map((address, idx) => (
-                        <div
-                          key={idx}
-                          className="truncate max-w-[200px]"
-                          title={`${address.street}, ${address.city}, ${address.postalCode}`}
-                        >
-                          {address.street}, {address.city}, {address.postalCode}
-                        </div>
-                      ))}
+                      <div className="truncate max-w-[200px]" title={contact.contactName}>
+                        {contact.contactName}
+                      </div>
                     </td>
+
+                    {/* Correo Electrónico */}
+                    <td className="px-6 py-7">
+                      <div className="truncate max-w-[200px]" title={contact.contactEmail}>
+                        {contact.contactEmail}
+                      </div>
+                    </td>
+
+                    {/* Teléfono */}
+                    <td className="px-6 py-7">
+                      {contact.contactPhones[0]} {/* Mostrar el primer teléfono */}
+                      {contact.contactPhones.length > 1 && (
+                        <span className="text-gray-500"> y {contact.contactPhones.length - 1} más</span>
+                      )}
+                    </td>
+
+                    {/* Dirección */}
+                    <td className="px-6 py-7">
+                      {contact.contactAddress[0] && (
+                        <div
+                          className="truncate max-w-[200px]"
+                          title={`${contact.contactAddress[0].street}, ${contact.contactAddress[0].city}, ${contact.contactAddress[0].postalCode}`}
+                        >
+                          {contact.contactAddress[0].street}, {contact.contactAddress[0].city}, {contact.contactAddress[0].postalCode}
+                        </div>
+                      )}
+                      {contact.contactAddress.length > 1 && (
+                        <span className="text-gray-500"> y {contact.contactAddress.length - 1} más</span>
+                      )}
+                    </td>
+
+                    {/* Acciones */}
                     <td className="px-6 py-4 text-center">
-                      <button className=" mx-2">
+                      <button
+                        className="mx-2"
+                        onClick={() => navigate(location.pathname + `?editContact=${contact._id}`)}
+                      >
                         <EditBlack />
                       </button>
-                      <button className=" mx-2">
+                      <button className="mx-2 text-red-500 hover:text-red-700">
                         <DeleteBlack />
                       </button>
                     </td>
@@ -69,7 +98,6 @@ export default function ContactList() {
                 </td>
               </tr>
             )}
-
           </tbody>
         </table>
       </div>
@@ -77,7 +105,7 @@ export default function ContactList() {
       {/* Lista para pantallas pequeñas */}
       <div
         className="block md:hidden flex-grow overflow-y-auto pb-4 border-t "
-        style={{ maxHeight: "calc(100vh - 200px)" }} 
+        style={{ maxHeight: "calc(100vh - 200px)" }}
       >
         <ul className="divide-y divide-gray-200">
           {data.length ? (
@@ -85,15 +113,26 @@ export default function ContactList() {
               {data.map((contact, index) => (
                 <li
                   key={index}
-                  className="flex justify-between items-center py-4 px-6 hover:bg-gray-50 "
+                  className="flex justify-between items-center py-4 px-6 hover:bg-gray-50"
                 >
                   <div>
+                    {/* Nombre */}
+                    <p className="text-lg font-medium text-gray-800 truncate max-w-[150px]" title={contact.contactName}>
+                      {contact.contactName}
+                    </p>
 
-                    <p className="text-lg font-medium text-gray-800">{contact.contactName}</p>
-                    <p className="text-sm text-gray-500">{contact.contactEmail}</p>
+                    {/* Correo Electrónico */}
+                    <p className="text-sm text-gray-500 truncate max-w-[150px]" title={contact.contactEmail}>
+                      {contact.contactEmail}
+                    </p>
                   </div>
+
+                  {/* Acciones */}
                   <div className="flex gap-2">
-                    <button className="text-blue-500 hover:text-blue-700">
+                    <button
+                      className="mx-2"
+                      onClick={() => navigate(location.pathname + `?editContact=${contact._id}`)}
+                    >
                       <EditBlack />
                     </button>
                     <button className="text-red-500 hover:text-red-700">
@@ -101,16 +140,16 @@ export default function ContactList() {
                     </button>
                   </div>
                 </li>
-              ))}</>
+              ))}
+            </>
           ) : (
             <div className="flex justify-center items-center h-[300px] text-gray-500">
               No hay contactos aún
             </div>
-          )
-          }
-
+          )}
         </ul>
       </div>
+
     </div>
   );
 }

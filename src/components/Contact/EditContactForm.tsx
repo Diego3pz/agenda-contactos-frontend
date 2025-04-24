@@ -3,7 +3,7 @@ import ErrorMessage from "../ErrorMessage";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ContactFormData } from "../../types";
 
-type ContactFormProps = {
+type EditContactFormProps = {
     register: UseFormRegister<ContactFormData>;
     errors: FieldErrors<ContactFormData>;
     contactPhones: string[];
@@ -16,7 +16,7 @@ type ContactFormProps = {
 
 
 
-export default function ContactForm({
+export default function EditContactForm({
     register,
     errors,
     contactPhones,
@@ -25,7 +25,7 @@ export default function ContactForm({
     removePhoneField,
     addAddressField,
     removeAddressField,
-}: ContactFormProps) {
+}: EditContactFormProps) {
     return (
         <>
             {/* Nombre */}
@@ -83,11 +83,11 @@ export default function ContactForm({
                                 {...register(`contactPhones.${index}`, {
                                     required: "El teléfono es obligatorio",
                                     maxLength: {
-                                        value: 10, // Cambia este valor según el criterio real
+                                        value: 10, 
                                         message: "El teléfono debe tener un máximo de 10 dígitos",
                                     },
                                     pattern: {
-                                        value: /^[0-9]+$/, // Solo permite números
+                                        value: /^[0-9]+$/, 
                                         message: "El teléfono solo debe contener números y no espacios",
                                     },
                                 })}
@@ -217,10 +217,10 @@ export default function ContactForm({
                 </button> */}
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm font-medium"
+                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm font-medium"
 
                 >
-                    Agregar Contacto
+                    Actualizar Contacto
                 </button>
             </div>
 

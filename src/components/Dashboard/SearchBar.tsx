@@ -39,7 +39,7 @@ export default function SearchBar() {
         </button>
       </div>
 
-      <AddContactModal />
+      
     </>
   );
 }

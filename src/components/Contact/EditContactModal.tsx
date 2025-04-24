@@ -1,47 +1,53 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { UserPlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify';
-import ContactForm from './ContactForm';
-import { ContactFormData } from '../../types';
-import { createContact } from '../../api/ContactAPI';
+import { Contact, ContactFormData } from '../../types';
+import { updateContact } from '../../api/ContactAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import EditContactForm from './EditContactForm';
 
-export default function AddContactModal() {
+type EditContactModalProps = {
+    data: ContactFormData
+    contactId: Contact['_id']
+}
 
-    const initialValues: ContactFormData = {
-        contactName: "",
-        contactEmail: "",
-        contactPhones: [""],
-        contactAddress: [{ street: "", city: "", postalCode: "" }],
-    }
-    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
+export default function EditContactModal({ data, contactId }: EditContactModalProps) {
+    const navigate = useNavigate();
+
+    // Inicializar los estados con los datos existentes
+    const [phones, setPhones] = useState<string[]>(data.contactPhones || ['']);
+    const [addresses, setAddresses] = useState<{ street: string; city: string; postalCode: string }[]>(
+        data.contactAddress || [{ street: '', city: '', postalCode: '' }]
+    );
+
+    const { register, handleSubmit, formState: { errors } } = useForm<ContactFormData>({
+        defaultValues: {
+            contactName: data.contactName,
+            contactEmail: data.contactEmail,
+            contactPhones: data.contactPhones,
+            contactAddress: data.contactAddress,
+        },
+    });
+
 
     const queryClient = useQueryClient();
 
-    const mutation = useMutation({
-        mutationFn: createContact,
+    const { mutate } = useMutation({
+        mutationFn: updateContact,
         onSuccess: (data) => {
             // Invalidar la consulta de contactos para actualizar la lista
             queryClient.invalidateQueries({ queryKey: ["contacts"] });
-            toast.success(data.message);
-            navigate('', { replace: true });
+            queryClient.invalidateQueries({ queryKey: ["editContact", contactId] });
+            toast.success(data);
+            navigate(location.pathname, { replace: true });
         },
         onError: (error) => {
             toast.error(error.message);
         },
     });
-    const navigate = useNavigate();
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const modalContact = queryParams.get('newContact');
-    const show = modalContact ? true : false;
-
-
-    const [phones, setPhones] = useState(['']);
-    const [addresses, setAddresses] = useState([{ street: '', city: '', postalCode: '' }]);
 
     const addPhoneField = () => setPhones([...phones, '']);
     const removePhoneField = (index: number) => {
@@ -58,27 +64,26 @@ export default function AddContactModal() {
     };
 
     const handleForm = (formData: ContactFormData) => {
-        try {
-            mutation.mutate(formData); // Llama a la mutación para crear el contacto
-
-        } catch (error) {
-            toast.error("Error al crear el contacto");
+        const data = {
+            formData,
+            ContactId: contactId
         }
+        mutate(data)
     };
 
     return (
-        <Transition appear show={show} as={Fragment}>
-            <Dialog as="div" className="relative z-20" onClose={() => navigate('', { replace: true })}>
+        <Transition appear show={true} as={Fragment}>
+            <Dialog as="div" className="relative z-20" onClose={() => navigate(location.pathname, { replace: true })}>
                 <div className="fixed inset-0 bg-black/60" />
                 <div className="fixed inset-0 overflow-y-auto">
                     <div className="flex min-h-full items-center justify-center p-4 text-center">
                         <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
                             {/* Header */}
-                            <div className="p-6 bg-blue-600 text-white rounded-t-2xl flex items-center justify-between">
+                            <div className="p-6 bg-green-600 text-white rounded-t-2xl flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <UserPlusIcon className="h-8 w-8" />
                                     <Dialog.Title as="h3" className="text-xl font-bold">
-                                        Crear Nuevo Contacto
+                                        Editar Contacto
                                     </Dialog.Title>
                                 </div>
                                 <button
@@ -95,7 +100,7 @@ export default function AddContactModal() {
                                 onSubmit={handleSubmit(handleForm)}
                                 noValidate
                             >
-                                <ContactForm
+                                <EditContactForm
                                     register={register}
                                     errors={errors}
                                     contactPhones={phones}
