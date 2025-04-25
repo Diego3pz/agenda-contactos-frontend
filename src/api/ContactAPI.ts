@@ -65,3 +65,16 @@ export async function updateContact({ ContactId, formData }: Pick<ContactAPI, 'C
     }
 
 }
+
+export async function deleteContactById(id: Contact['_id']) {
+    try {
+        const { data } = await api.delete<string>(`/contacts/${id}`)
+        return data
+
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+
+    }
+}

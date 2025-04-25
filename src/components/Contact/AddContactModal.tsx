@@ -17,7 +17,7 @@ export default function AddContactModal() {
         contactPhones: [""],
         contactAddress: [{ street: "", city: "", postalCode: "" }],
     }
-    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({ defaultValues: initialValues })
 
     const queryClient = useQueryClient();
 
@@ -26,7 +26,13 @@ export default function AddContactModal() {
         onSuccess: (data) => {
             // Invalidar la consulta de contactos para actualizar la lista
             queryClient.invalidateQueries({ queryKey: ["contacts"] });
+            // Resetear el formulario
+            reset(initialValues);
+            setPhones([""]);
+            setAddresses([{ street: "", city: "", postalCode: "" }]);
+            
             toast.success(data.message);
+
             navigate('', { replace: true });
         },
         onError: (error) => {
@@ -69,46 +75,65 @@ export default function AddContactModal() {
     return (
         <Transition appear show={show} as={Fragment}>
             <Dialog as="div" className="relative z-20" onClose={() => navigate('', { replace: true })}>
-                <div className="fixed inset-0 bg-black/60" />
+                <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div className="fixed inset-0 bg-black/60" />
+                </Transition.Child>
+
                 <div className="fixed inset-0 overflow-y-auto">
                     <div className="flex min-h-full items-center justify-center p-4 text-center">
-                        <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
-                            {/* Header */}
-                            <div className="p-6 bg-blue-600 text-white rounded-t-2xl flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <UserPlusIcon className="h-8 w-8" />
-                                    <Dialog.Title as="h3" className="text-xl font-bold">
-                                        Crear Nuevo Contacto
-                                    </Dialog.Title>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                        >
+                            <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                                {/* Header */}
+                                <div className="p-6 bg-blue-600 text-white rounded-t-2xl flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <UserPlusIcon className="h-8 w-8" />
+                                        <Dialog.Title as="h3" className="text-xl font-bold">
+                                            Crear Nuevo Contacto
+                                        </Dialog.Title>
+                                    </div>
+                                    <button
+                                        className="text-white hover:text-gray-200"
+                                        onClick={() => navigate('', { replace: true })}
+                                    >
+                                        <XMarkIcon className="h-6 w-6" />
+                                    </button>
                                 </div>
-                                <button
-                                    className="text-white hover:text-gray-200"
-                                    onClick={() => navigate('', { replace: true })}
+
+                                {/* Formulario */}
+                                <form
+                                    className="px-6 pt-6 space-y-4 max-h-[60vh] overflow-y-auto"
+                                    onSubmit={handleSubmit(handleForm)}
+                                    noValidate
                                 >
-                                    <XMarkIcon className="h-6 w-6" />
-                                </button>
-                            </div>
-
-                            {/* Formulario */}
-                            <form
-                                className="px-6 pt-6 space-y-4 max-h-[60vh] overflow-y-auto"
-                                onSubmit={handleSubmit(handleForm)}
-                                noValidate
-                            >
-                                <ContactForm
-                                    register={register}
-                                    errors={errors}
-                                    contactPhones={phones}
-                                    contactAddress={addresses}
-                                    addPhoneField={addPhoneField}
-                                    removePhoneField={removePhoneField}
-                                    addAddressField={addAddressField}
-                                    removeAddressField={removeAddressField}
-                                />
-                            </form>
-
-                            {/* Footer */}
-                        </Dialog.Panel>
+                                    <ContactForm
+                                        register={register}
+                                        errors={errors}
+                                        contactPhones={phones}
+                                        contactAddress={addresses}
+                                        addPhoneField={addPhoneField}
+                                        removePhoneField={removePhoneField}
+                                        addAddressField={addAddressField}
+                                        removeAddressField={removeAddressField}
+                                    />
+                                </form>
+                            </Dialog.Panel>
+                        </Transition.Child>
                     </div>
                 </div>
             </Dialog>

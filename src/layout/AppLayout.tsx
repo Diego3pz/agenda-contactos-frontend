@@ -42,8 +42,7 @@ export default function AppLayout() {
                     style={{ zIndex: 50 }}
                 />
             </div>
-            <AddContactModal />
-            <EditContactData />
+            
         </>
     );
 }
