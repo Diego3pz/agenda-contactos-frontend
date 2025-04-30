@@ -31,7 +31,7 @@ export default function AddContactModal() {
             setPhones([""]);
             setAddresses([{ street: "", city: "", postalCode: "" }]);
             
-            toast.success(data.message);
+            toast.success(data);
 
             navigate('', { replace: true });
         },

@@ -217,7 +217,7 @@ export default function EditContactForm({
                 </button> */}
                 <button
                     type="submit"
-                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm font-medium"
+                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-sm font-medium transition-colors"
 
                 >
                     Actualizar Contacto

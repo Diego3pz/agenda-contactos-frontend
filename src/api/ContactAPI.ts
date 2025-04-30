@@ -9,7 +9,7 @@ type ContactAPI = {
 
 export async function createContact(formData: ContactFormData) {
     try {
-        const { data } = await api.post('/contacts', formData)
+        const { data } = await api.post<string>('/contacts', formData)
         return data;
 
 

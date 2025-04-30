@@ -2,8 +2,8 @@ import { Outlet } from "react-router-dom";
 import NavMenu from "../components/NavMenu";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import AddContactModal from "../components/Contact/AddContactModal";
-import EditContactData from "../components/Contact/EditContactData";
+import LogoBgDashboard from "../components/Icon/LogoBgDashboard";
+
 
 export default function AppLayout() {
     return (
@@ -12,7 +12,11 @@ export default function AppLayout() {
                 {/* Header */}
                 <header className="bg-gray-800 text-white py-2 sm:py-4 fixed top-0 w-full z-10">
                     <div className="container mx-auto flex justify-between items-center px-4 sm:px-6">
-                        <h1 className="text-lg sm:text-xl font-bold">Agenda de Contactos</h1>
+                        {/* Logo */}
+                        <div className="flex items-center gap-4 lg:uppercase">
+                            <LogoBgDashboard />
+                            <h1 className="text-lg sm:text-xl font-bold">Agenda de Contactos</h1>
+                        </div>
                         <div className="flex items-center">
                             <NavMenu />
                         </div>
@@ -42,7 +46,6 @@ export default function AppLayout() {
                     style={{ zIndex: 50 }}
                 />
             </div>
-            
         </>
     );
 }
