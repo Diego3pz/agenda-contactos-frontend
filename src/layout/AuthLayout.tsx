@@ -10,7 +10,7 @@ export default function AuthLayout() {
                     <div className="w-full flex justify-center items-center">
                         <LogoBg />
                     </div>
-                    <div className=" mt-10">
+                    <div className=" mt-5">
                         <Outlet />
                     </div>
                 </div>

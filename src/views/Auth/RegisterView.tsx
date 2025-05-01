@@ -48,7 +48,7 @@ export default function RegisterView() {
 
       <form
         onSubmit={handleSubmit(handleRegister)}
-        className="space-y-8 p-10  bg-white mt-10"
+        className="space-y-8 p-10  bg-white mt-5"
         noValidate
       >
         <div className="flex flex-col gap-5">
@@ -141,10 +141,17 @@ export default function RegisterView() {
         />
       </form>
       <nav className=" mt-10 flex flex-col space-y-4">
-        <Link to={'/auth/login'} className="text-center text-gray-500 text-sm">
+        <Link to={'/auth/login'} className="text-center text-gray-500">
           <p className="text-center">
             ¿Ya tienes una cuenta? {''}
-            <span className="text-orange-500 font-black">Inicia Sesión</span>
+            <span className="text-orange-600 font-black">Inicia Sesión</span>
+          </p>
+        </Link>
+
+        <Link to={'/auth/forgot-password'} className="text-center text-gray-500">
+          <p className="text-center ">¿Olvidaste tu contraseña?
+            {" "}
+            <span className="text-orange-600 font-black">Reestablecer</span>
           </p>
         </Link>
       </nav>
