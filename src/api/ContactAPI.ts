@@ -23,6 +23,7 @@ export async function createContact(formData: ContactFormData) {
 }
 
 export async function getContacts() {
+
     try {
         const { data } = await api('/contacts')
         const response = dashboardContactSchema.safeParse(data)

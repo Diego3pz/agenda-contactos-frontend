@@ -14,10 +14,11 @@ export default function ContactView() {
         queryKey: ["contact", contactId],
         queryFn: () => getContactById(contactId),
         initialData: queryClient.getQueryData(["contact", contactId]),
+        retry: false
     });
 
     if (isLoading) return <div className="flex justify-center items-center h-full">Cargando...</div>;
-    if (isError) return <Navigate to={'/404'} />
+    if (isError) return <Navigate to='/404' />
     if (data) return (
         <>
             <div className="container mx-auto py-4 sm:p-4   mt-4 mb-auto">
