@@ -12,11 +12,14 @@ import NewPasswordView from './views/Auth/NewPasswordView';
 import ProfileView from './views/Profile/ProfileView';
 import ChangePasswordView from './views/Profile/ChangePasswordView';
 import ProfileLayout from './layout/ProfileLayout';
+import NotFound from './views/404/NotFound';
+import PublicRoute from './components/PublicRoute/PublicRoute';
 
 export default function Router() {
     return (
         <BrowserRouter>
             <Routes>
+                {/* Rutas privadas */}
                 <Route element={<AppLayout />}>
                     <Route path="/" element={<DashboardView />} index />
                     <Route path="/:contactId" element={<ContactView />} />
@@ -26,13 +29,21 @@ export default function Router() {
                     </Route>
                 </Route>
 
+                {/* Rutas publicas */}
+                <Route element={<PublicRoute />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/auth/login" element={<LoginView />} />
+                        <Route path="/auth/register" element={<RegisterView />} />
+                        <Route path="/auth/confirm-account" element={<ConfirmAccountView />} />
+                        <Route path="/auth/request-code" element={<RequestNewCodeView />} />
+                        <Route path="/auth/forgot-password" element={<ForgotPasswordView />} />
+                        <Route path="/auth/new-password" element={<NewPasswordView />} />
+                    </Route>
+                </Route>
+
+                {/* Ruta para páginas no encontradas */}
                 <Route element={<AuthLayout />}>
-                    <Route path="/auth/login" element={<LoginView />} />
-                    <Route path="/auth/register" element={<RegisterView />} />
-                    <Route path="/auth/confirm-account" element={<ConfirmAccountView />} />
-                    <Route path="/auth/request-code" element={<RequestNewCodeView />} />
-                    <Route path="/auth/forgot-password" element={<ForgotPasswordView />} />
-                    <Route path="/auth/new-password" element={<NewPasswordView />} />
+                    <Route path='/404' element={<NotFound />} />
                 </Route>
             </Routes>
         </BrowserRouter>
