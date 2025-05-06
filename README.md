@@ -1,54 +1,51 @@
-# React + TypeScript + Vite
+# Agenda de Contactos - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es el frontend de la aplicación **Agenda de Contactos**, desarrollado con **React**, **TypeScript** y **Vite**. Permite a los usuarios gestionar sus contactos, autenticarse y realizar operaciones relacionadas con su perfil.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## **Tecnologías utilizadas**
 
-## Expanding the ESLint configuration
+- **Framework**: React
+- **Librería de Rutas**: React Router
+- **Gestión de Estado y Datos**: React Query
+- **Librería de Formularios**: React Hook Form
+- **Estilos**: Tailwind CSS
+- **Notificaciones**: React Toastify
+- **Construcción del Proyecto**: Vite
+- **Validación de Datos**: Zod
+- **Componentes UI**: Headless UI
+- **Iconos**: Heroicons
+- **Interfaz HTTP**: Axios
+- **DevTools**: React Query Devtools
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## **Requisitos previos**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Node.js (versión 16 o superior)
+- npm o yarn
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## **Instalación**
+
+1. Clona el repositorio:
+   ```bash
+   git clone <https://github.com/Diego3pz/agenda-contactos-frontend/>
+   cd Agenda_Frontend
+    ```
+2. Instalacion de dependencias:
+   ```bash
+   npm install
+    ```
+3. Configura las variables de entorno:
+   ```bash
+   VITE_API_URL=http://localhost:4000/api
+    ```
+4. Inicia el servidor de desarrollo:
+   ```bash
+   npm run dev
+    ```
+## **Backend del proyecto**
+- https://github.com/Diego3pz/agenda-contactos-backend/
