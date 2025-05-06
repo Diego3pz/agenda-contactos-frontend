@@ -15,13 +15,13 @@ export default function LoginView() {
         password: '',
     }
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
+    
     const queryClient = useQueryClient();
 
     const { mutate } = useMutation({
         mutationFn: authenticateUser,
-        onSuccess: (data) => {
-            toast.success(data)
-            
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['user'] });
             navigate('/')
         },
         onError: (error) => {

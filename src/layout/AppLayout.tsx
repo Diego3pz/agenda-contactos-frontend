@@ -19,21 +19,23 @@ export default function AppLayout() {
         <>
             <div className="flex flex-col min-h-screen">
                 <header className="bg-gray-800 text-white py-2 sm:py-4 fixed top-0 w-full z-10">
-                    <div className="container mx-auto flex justify-between items-center px-4 sm:px-6">
+                    <div className="container mx-auto flex justify-between items-center  sm:px-6">
 
-                        <div className="flex items-center gap-4 lg:uppercase">
+                        <div className="flex items-center gap-4 lg:uppercase ml-2 ">
                             <LogoBgDashboard />
                             <h1 className="text-lg sm:text-xl font-bold">Agenda de Contactos</h1>
                         </div>
-                        <div className="flex items-center">
-                            <NavMenu />
+                        <div className="flex items-center ">
+                            <NavMenu 
+                                name={data.name}
+                            />
                         </div>
                     </div>
                 </header>
 
 
                 <main className="flex-grow overflow-y-auto mt-6 sm:mt-10">
-                    <div className="container mx-auto px-4 py-2">
+                    <div className="container mx-auto px-4 mt-8 py-2">
                         <Outlet />
                     </div>
                 </main>

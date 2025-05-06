@@ -4,6 +4,7 @@ import { z } from 'zod'
 const authSchema = z.object({
     name: z.string(),
     email: z.string().email(),
+    currentPassword: z.string(),
     password: z.string(),
     confirmPassword: z.string(),
     token: z.string()
@@ -16,6 +17,7 @@ export type RequestConfirmationCodeForm = Pick<Auth, 'email'>
 export type ForgotPasswordForm = Pick<Auth, 'email'>
 export type NewPasswordForm = Pick<Auth, 'password' | 'confirmPassword'>
 export type ConfirmToken= Pick<Auth, 'token'>
+export type UpdateCurrentUserPasswordForm = Pick<Auth, 'currentPassword' | 'password' | 'confirmPassword'>
 
 // User
 export const userSchema = authSchema.pick({
@@ -26,6 +28,7 @@ export const userSchema = authSchema.pick({
 })
 
 export type User = z.infer<typeof userSchema>
+export type UserProfileForm = Pick<User, 'name' | 'email'>
 
 
 // Contacts

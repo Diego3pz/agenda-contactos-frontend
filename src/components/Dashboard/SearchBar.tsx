@@ -20,7 +20,7 @@ export default function SearchBar({ onSearch }: { onSearch: (term: string) => vo
         <input
           type="text"
           placeholder="Buscar por nombre, correo o teléfono"
-          className="ml-2 bg-transparent outline-none text-gray-700 text-sm sm:text-base w-full"
+          className=" border-none ml-2 bg-transparent outline-none text-gray-700 text-sm sm:text-base w-full"
           value={searchTerm}
           onChange={handleSearchChange}
         />

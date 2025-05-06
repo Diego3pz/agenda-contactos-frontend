@@ -98,7 +98,6 @@ export async function updatePasswordWithToken({ formData, token }: { formData: N
 export async function getUserProfile() {
     try {
         const { data } = await api.get('/auth/user')
-        console.log(data);
 
         const response = userSchema.safeParse(data)
         if (response.success) {

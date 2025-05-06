@@ -9,6 +9,9 @@ import ConfirmAccountView from './views/Auth/ConfirmAccountView';
 import RequestNewCodeView from './views/Auth/RequestNewCodeView';
 import ForgotPasswordView from './views/Auth/ForgotPasswordView';
 import NewPasswordView from './views/Auth/NewPasswordView';
+import ProfileView from './views/Profile/ProfileView';
+import ChangePasswordView from './views/Profile/ChangePasswordView';
+import ProfileLayout from './layout/ProfileLayout';
 
 export default function Router() {
     return (
@@ -17,6 +20,10 @@ export default function Router() {
                 <Route element={<AppLayout />}>
                     <Route path="/" element={<DashboardView />} index />
                     <Route path="/:contactId" element={<ContactView />} />
+                    <Route element={<ProfileLayout />}>
+                        <Route path="/profile" element={<ProfileView />} />
+                        <Route path="/profile/password" element={<ChangePasswordView />} />
+                    </Route>
                 </Route>
 
                 <Route element={<AuthLayout />}>
